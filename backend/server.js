@@ -9,6 +9,7 @@ const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const cors = require("cors");
+const path = require("path");
 
 dotenv.config();
 
@@ -21,15 +22,35 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
-app.get("/", (req, res) => {
-	res.send("working");
-});
+// app.get("/", (req, res) => {
+// 	res.send("working");
+// });
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/checkout", stripeRoute);
+
+// --------------------------deployment------------------------------
+
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname1, "/frontend/build")));
+
+	app.get("*", (req, res) =>
+		res.sendFile(
+			path.resolve(__dirname1, "frontend", "build", "index.html"),
+		),
+	);
+} else {
+	app.get("/", (req, res) => {
+		res.send("API is running..");
+	});
+}
+
+// --------------------------deployment------------------------------
 
 app.listen(process.env.PORT || 5000, () => {
 	console.log("Backend server is running!");
