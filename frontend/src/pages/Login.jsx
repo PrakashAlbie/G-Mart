@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +58,7 @@ const Button = styled.button`
 	}
 `;
 
-const Link = styled.a`
+const Navigate = styled.a`
 	margin: 5px 0px;
 	font-size: 12px;
 	text-decoration: underline;
@@ -96,8 +97,26 @@ const Login = () => {
 						LOGIN
 					</Button>
 					{error && <Error>Something went wrong...</Error>}
-					<Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-					<Link>CREATE A NEW ACCOUNT</Link>
+					{/* <Navigate>
+						<Link
+							to={"/"}
+							style={{
+								textDecoration: "none",
+							}}>
+							DO NOT YOU REMEMBER THE PASSWORD?
+						</Link>
+					</Navigate> */}
+					<Navigate>
+						<Link
+							to={"/register"}
+							style={{
+								textDecoration: "none",
+								color: "black",
+							}}>
+							CREATE A NEW ACCOUNT
+						</Link>
+					</Navigate>
+					<Navigate></Navigate>
 				</Form>
 			</Wrapper>
 		</Container>
